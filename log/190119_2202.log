@@ -1,0 +1,452 @@
+Bringing machine 'db1' up with 'virtualbox' provider...
+==> db1: Checking if box 'bento/centos-7.5' is up to date...
+==> db1: Clearing any previously set forwarded ports...
+==> db1: Clearing any previously set network interfaces...
+==> db1: Preparing network interfaces based on configuration...
+    db1: Adapter 1: nat
+    db1: Adapter 2: hostonly
+==> db1: Forwarding ports...
+    db1: 22 (guest) => 2222 (host) (adapter 1)
+==> db1: Running 'pre-boot' VM customizations...
+==> db1: Booting VM...
+==> db1: Waiting for machine to boot. This may take a few minutes...
+    db1: SSH address: 127.0.0.1:2222
+    db1: SSH username: vagrant
+    db1: SSH auth method: private key
+Bringing machine 'web1' up with 'virtualbox' provider...
+==> web1: Importing base box 'bento/centos-7.5'...
+[KProgress: 60%[KProgress: 90%[K==> web1: Matching MAC address for NAT networking...
+==> web1: Checking if box 'bento/centos-7.5' is up to date...
+==> web1: Setting the name of the VM: elnx-1819-ha-JensNeirynck_web1_1547932062533_16084
+==> web1: Fixed port collision for 22 => 2222. Now on port 2200.
+==> web1: Clearing any previously set network interfaces...
+==> web1: Preparing network interfaces based on configuration...
+    web1: Adapter 1: nat
+    web1: Adapter 2: hostonly
+==> web1: Forwarding ports...
+    web1: 22 (guest) => 2200 (host) (adapter 1)
+==> web1: Running 'pre-boot' VM customizations...
+==> web1: Booting VM...
+==> web1: Waiting for machine to boot. This may take a few minutes...
+    web1: SSH address: 127.0.0.1:2200
+    web1: SSH username: vagrant
+    web1: SSH auth method: private key
+    web1: Warning: Connection aborted. Retrying...
+    web1: Warning: Connection reset. Retrying...
+    web1: Warning: Connection aborted. Retrying...
+    web1: Warning: Connection reset. Retrying...
+    web1: Warning: Connection aborted. Retrying...
+    web1: Warning: Connection reset. Retrying...
+==> web1: Machine booted and ready!
+==> web1: Checking for guest additions in VM...
+    web1: The guest additions on this VM do not match the installed version of
+    web1: VirtualBox! In most cases this is fine, but in rare cases it can
+    web1: prevent things such as shared folders from working properly. If you see
+    web1: shared folder errors, please make sure the guest additions within the
+    web1: virtual machine match the version of VirtualBox you have installed on
+    web1: your host and reload your VM.
+    web1: 
+    web1: Guest Additions Version: 5.2.18
+    web1: VirtualBox Version: 6.0
+==> web1: Setting hostname...
+==> web1: Configuring and enabling network interfaces...
+==> web1: Mounting shared folders...
+    web1: /vagrant => D:/Documents/GitHub/elnx-1819-ha-JensNeirynck
+==> web1: Running provisioner: ansible_local...
+    web1: Installing Ansible...
+    web1: Running ansible-playbook...
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [web1]
+
+TASK [bertvv.rh-base : include_vars] *******************************************
+ok: [web1] => (item=/vagrant/ansible/roles/bertvv.rh-base/vars/RedHat.yml)
+
+TASK [bertvv.rh-base : include_tasks] ******************************************
+included: /vagrant/ansible/roles/bertvv.rh-base/tasks/install.yml for web1
+
+TASK [bertvv.rh-base : Install | Check minimal value of ‘rhbase_repo_installonly_limit’ (>= 2)] ***
+ok: [web1] => {
+    "msg": "The value of ‘rhbase_repo_installonly_limit’ should be at least 2, actual value is 3."
+}
+
+TASK [bertvv.rh-base : Install | Ensure the machine-ID is available] ***********
+ok: [web1]
+
+TASK [bertvv.rh-base : Install | Ensure basic systemd services are running] ****
+ok: [web1] => (item=systemd-journald)
+ok: [web1] => (item=systemd-tmpfiles-setup-dev)
+ok: [web1] => (item=systemd-tmpfiles-setup)
+
+TASK [bertvv.rh-base : Install | Role/Ansible dependencies] ********************
+ok: [web1] => (item=libselinux-python)
+ok: [web1] => (item=libsemanage-python)
+ok: [web1] => (item=firewalld)
+
+TASK [bertvv.rh-base : Install | Package management configuration (yum)] *******
+changed: [web1]
+
+TASK [bertvv.rh-base : Install | Ensure specified external repositories are installed] ***
+
+TASK [bertvv.rh-base : Install | Ensure specified repositories are enabled] ****
+
+TASK [bertvv.rh-base : Install | Ensure specified packages are installed] ******
+
+TASK [bertvv.rh-base : Install | Ensure specified packages are NOT installed] ***
+
+TASK [bertvv.rh-base : Install | Ensure all updates are installed] *************
+skipping: [web1]
+
+TASK [bertvv.rh-base : Install | Install yum-cron.] ****************************
+changed: [web1]
+
+TASK [bertvv.rh-base : Install | Ensure yum-cron is running and enabled on boot.] ***
+changed: [web1]
+
+TASK [bertvv.rh-base : include_tasks] ******************************************
+included: /vagrant/ansible/roles/bertvv.rh-base/tasks/config.yml for web1
+
+TASK [bertvv.rh-base : Config | Ensure host name is in the hosts file] *********
+skipping: [web1]
+
+TASK [bertvv.rh-base : Config | Install custom `/etc/motd` file] ***************
+skipping: [web1]
+
+TASK [bertvv.rh-base : Config | Check if ifup-eth script overrides firewall zone] ***
+ok: [web1]
+
+TASK [bertvv.rh-base : Config | Don’t override firewall zone in ifup-eth script] ***
+skipping: [web1]
+
+TASK [bertvv.rh-base : Config | Check if ifup-post script overrides firewall zone] ***
+ok: [web1]
+
+TASK [bertvv.rh-base : Config | Don’t override firewall zone in ifup-post script] ***
+skipping: [web1]
+
+TASK [bertvv.rh-base : Config | Set the TZ environment variable] ***************
+changed: [web1]
+
+TASK [bertvv.rh-base : include_tasks] ******************************************
+included: /vagrant/ansible/roles/bertvv.rh-base/tasks/services.yml for web1
+
+TASK [bertvv.rh-base : Services | Ensure SSH daemon is running] ****************
+ok: [web1]
+
+TASK [bertvv.rh-base : Services | Ensure `/var/log/journal` exists] ************
+changed: [web1]
+
+TASK [bertvv.rh-base : Services | Ensure specified services are running] *******
+
+TASK [bertvv.rh-base : Services | Ensure specified services are NOT running] ***
+
+TASK [bertvv.rh-base : include_tasks] ******************************************
+included: /vagrant/ansible/roles/bertvv.rh-base/tasks/security.yml for web1
+
+TASK [bertvv.rh-base : Security | Make sure SELinux is Enforcing] **************
+changed: [web1]
+
+TASK [bertvv.rh-base : Security | Enable SELinux booleans] *********************
+changed: [web1] => (item=httpd_can_network_connect_db)
+
+TASK [bertvv.rh-base : Security | Make sure the firewall is running] ***********
+changed: [web1]
+
+TASK [bertvv.rh-base : Security | Make sure basic services can pass through firewall] ***
+ok: [web1] => (item=dhcpv6-client)
+ok: [web1] => (item=ssh)
+
+TASK [bertvv.rh-base : Security | Make sure user specified services can pass through firewall] ***
+changed: [web1] => (item=http)
+changed: [web1] => (item=https)
+
+TASK [bertvv.rh-base : Security | Make sure user specified ports can pass through firewall] ***
+
+TASK [bertvv.rh-base : Security | Make sure specified interfaces are added] ****
+
+TASK [bertvv.rh-base : include_tasks] ******************************************
+included: /vagrant/ansible/roles/bertvv.rh-base/tasks/users.yml for web1
+
+TASK [bertvv.rh-base : Users | Add groups] *************************************
+
+TASK [bertvv.rh-base : Users | Add users] **************************************
+
+TASK [bertvv.rh-base : Users | Set up SSH key for user (not specified)] ********
+skipping: [web1]
+
+TASK [bertvv.rh-base : include_tasks] ******************************************
+included: /vagrant/ansible/roles/bertvv.rh-base/tasks/admin.yml for web1
+
+TASK [bertvv.rh-base : Admin | Make sure users from the wheel group can use sudo] ***
+changed: [web1]
+
+TASK [bertvv.rh-base : Admin | Set attributes of sudo configuration file for wheel group] ***
+changed: [web1]
+
+TASK [bertvv.hosts : Install custom hosts file] ********************************
+changed: [web1]
+
+RUNNING HANDLER [bertvv.rh-base : restart journald] ****************************
+changed: [web1]
+
+RUNNING HANDLER [bertvv.rh-base : restart firewalld] ***************************
+changed: [web1]
+
+PLAY [db1] *********************************************************************
+skipping: no hosts matched
+
+PLAY [web1] ********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [web1]
+
+TASK [Setting hostname] ********************************************************
+ok: [web1]
+
+TASK [bertvv.httpd : include_vars] *********************************************
+ok: [web1] => (item=/vagrant/ansible/roles/bertvv.httpd/vars/RedHat.yml)
+
+TASK [bertvv.httpd : Ensure Apache is installed] *******************************
+ok: [web1] => (item=hostname)
+changed: [web1] => (item=httpd)
+changed: [web1] => (item=mod_ssl)
+
+TASK [bertvv.httpd : Install main configuration file] **************************
+changed: [web1]
+
+TASK [bertvv.httpd : Install status configuration file] ************************
+changed: [web1]
+
+TASK [bertvv.httpd : Install certificate files] ********************************
+included: /vagrant/ansible/roles/bertvv.httpd/tasks/certificates.yml for web1
+
+TASK [bertvv.httpd : Check if default SSL certificate exists] ******************
+ok: [web1]
+
+TASK [bertvv.httpd : Generate default SSL certificate] *************************
+skipping: [web1]
+
+TASK [bertvv.httpd : Copy user defined key file] *******************************
+skipping: [web1]
+
+TASK [bertvv.httpd : Copy custom certificate file] *****************************
+skipping: [web1]
+
+TASK [bertvv.httpd : Copy custom certificate chain file] ***********************
+skipping: [web1]
+
+TASK [bertvv.httpd : Copy custom CA certificate file] **************************
+skipping: [web1]
+
+TASK [bertvv.httpd : Install mod_ssl configuration file] ***********************
+changed: [web1]
+
+TASK [bertvv.httpd : Ensure Apache is always running] **************************
+changed: [web1]
+
+TASK [bertvv.drupal : include_vars] ********************************************
+ok: [web1] => (item=/vagrant/ansible/roles/bertvv.drupal/vars/RedHat.yml)
+
+TASK [bertvv.drupal : Install package repository] ******************************
+ok: [web1]
+
+TASK [bertvv.drupal : Install packages] ****************************************
+changed: [web1] => (item=php-mysql)
+changed: [web1] => (item=drupal7)
+
+TASK [bertvv.drupal : Install Apache configuration] ****************************
+changed: [web1]
+
+TASK [bertvv.drupal : Install Drupal configuration] ****************************
+changed: [web1]
+
+TASK [bertvv.drupal : Allow Apache to access database over the network if necessary] ***
+ok: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Fix facts for linuxmint - distribution release] ***
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Fix facts for linuxmint - family] ***************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Include OS-specific variables] ******************
+ok: [web1]
+
+TASK [dj-wasabi.zabbix-agent : RedHat | Use EPEL package name] *****************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : RedHat | Set ansible_distribution_major_version to 6 when Amazon] ***
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Fedora | Modify ansible_distribution_major_version and zabbix_agent_conf_dir when Fedora] ***
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : RedHat | Install basic repo file] ***************
+changed: [web1] => (item={u'state': u'present', u'description': u'Zabbix Official Repository - $basearch', u'gpgcheck': 0, u'gpgkey': u'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX', u'baseurl': u'http://repo.zabbix.com/zabbix/4.0/rhel/7/$basearch/', u'name': u'zabbix'})
+changed: [web1] => (item={u'state': u'present', u'description': u'Zabbix Official Repository non-supported - $basearch', u'gpgcheck': 0, u'gpgkey': u'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX', u'baseurl': u'http://repo.zabbix.com/non-supported/rhel/7/$basearch/', u'name': u'zabbix-non-supported'})
+
+TASK [dj-wasabi.zabbix-agent : Do a yum clean] *********************************
+changed: [web1]
+
+TASK [dj-wasabi.zabbix-agent : RedHat | Installing zabbix-agent] ***************
+changed: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Install policycoreutils-python] *****************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : RedHat | Enable the service] ********************
+changed: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Include Zabbix gpg ids] *************************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Set short version name] *************************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Debian | Install gpg key] ***********************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Debian | Installing deb-src repository Ubuntu] ***
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Debian | Installing deb repository Debian] ******
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Debian | Installing deb-src repository Debian] ***
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Debian | Installing deb repository Ubuntu] ******
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Debian | Installing zabbix-agent] ***************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Mint | Installing zabbix-agent] *****************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Install policycoreutils-python] *****************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Debian | Enable the service] ********************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Include Zabbix gpg ids] *************************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Install zypper repo dependency] *****************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Suse | Install basic repo file] *****************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Suse | Install zabbix-agent] ********************
+skipping: [web1]
+
+TASK [dj-wasabi.zabbix-agent : Get Total Private IP Addresses] *****************
+fatal: [web1]: FAILED! => {"msg": "The ipaddr filter requires python-netaddr be installed on the ansible controller"}
+
+RUNNING HANDLER [bertvv.httpd : restart httpd] *********************************
+	to retry, use: --limit @/vagrant/ansible/site.retry
+
+PLAY RECAP *********************************************************************
+web1                       : ok=51   changed=26   unreachable=0    failed=1   
+
+Bringing machine 'web2' up with 'virtualbox' provider...
+==> web2: Checking if box 'bento/centos-7.5' is up to date...
+==> web2: Clearing any previously set forwarded ports...
+==> web2: Fixed port collision for 22 => 2222. Now on port 2201.
+==> web2: Clearing any previously set network interfaces...
+==> web2: Preparing network interfaces based on configuration...
+    web2: Adapter 1: nat
+    web2: Adapter 2: hostonly
+==> web2: Forwarding ports...
+    web2: 22 (guest) => 2201 (host) (adapter 1)
+==> web2: Running 'pre-boot' VM customizations...
+==> web2: Booting VM...
+==> web2: Waiting for machine to boot. This may take a few minutes...
+    web2: SSH address: 127.0.0.1:2201
+    web2: SSH username: vagrant
+    web2: SSH auth method: private key
+==> web2: Machine booted and ready!
+==> web2: Checking for guest additions in VM...
+    web2: No guest additions were detected on the base box for this VM! Guest
+    web2: additions are required for forwarded ports, shared folders, host only
+    web2: networking, and more. If SSH fails on this machine, please install
+    web2: the guest additions and repackage the box to continue.
+    web2: 
+    web2: This is not an error message; everything may continue to work properly,
+    web2: in which case you may ignore this message.
+==> web2: Setting hostname...
+==> web2: Configuring and enabling network interfaces...
+==> web2: Mounting shared folders...
+    web2: /vagrant => D:/Documents/GitHub/elnx-1819-ha-JensNeirynck
+Bringing machine 'lb1' up with 'virtualbox' provider...
+==> lb1: Checking if box 'bento/centos-7.5' is up to date...
+==> lb1: Clearing any previously set forwarded ports...
+==> lb1: Fixed port collision for 22 => 2222. Now on port 2202.
+==> lb1: Clearing any previously set network interfaces...
+==> lb1: Preparing network interfaces based on configuration...
+    lb1: Adapter 1: nat
+    lb1: Adapter 2: hostonly
+==> lb1: Forwarding ports...
+    lb1: 22 (guest) => 2202 (host) (adapter 1)
+==> lb1: Running 'pre-boot' VM customizations...
+==> lb1: Booting VM...
+==> lb1: Waiting for machine to boot. This may take a few minutes...
+    lb1: SSH address: 127.0.0.1:2202
+    lb1: SSH username: vagrant
+    lb1: SSH auth method: private key
+    lb1: Warning: Connection reset. Retrying...
+    lb1: Warning: Connection aborted. Retrying...
+==> lb1: Machine booted and ready!
+==> lb1: Checking for guest additions in VM...
+    lb1: The guest additions on this VM do not match the installed version of
+    lb1: VirtualBox! In most cases this is fine, but in rare cases it can
+    lb1: prevent things such as shared folders from working properly. If you see
+    lb1: shared folder errors, please make sure the guest additions within the
+    lb1: virtual machine match the version of VirtualBox you have installed on
+    lb1: your host and reload your VM.
+    lb1: 
+    lb1: Guest Additions Version: 5.2.18
+    lb1: VirtualBox Version: 6.0
+==> lb1: Setting hostname...
+==> lb1: Configuring and enabling network interfaces...
+==> lb1: Mounting shared folders...
+    lb1: /vagrant => D:/Documents/GitHub/elnx-1819-ha-JensNeirynck
+==> lb1: Machine already provisioned. Run `vagrant provision` or use the `--provision`
+==> lb1: flag to force provisioning. Provisioners marked to run always will still run.
+Bringing machine 'mon1' up with 'virtualbox' provider...
+==> mon1: Checking if box 'bento/centos-7.5' is up to date...
+==> mon1: Clearing any previously set forwarded ports...
+==> mon1: Fixed port collision for 22 => 2222. Now on port 2203.
+==> mon1: Clearing any previously set network interfaces...
+==> mon1: Preparing network interfaces based on configuration...
+    mon1: Adapter 1: nat
+    mon1: Adapter 2: hostonly
+==> mon1: Forwarding ports...
+    mon1: 22 (guest) => 2203 (host) (adapter 1)
+==> mon1: Running 'pre-boot' VM customizations...
+==> mon1: Booting VM...
+==> mon1: Waiting for machine to boot. This may take a few minutes...
+    mon1: SSH address: 127.0.0.1:2203
+    mon1: SSH username: vagrant
+    mon1: SSH auth method: private key
+==> mon1: Machine booted and ready!
+==> mon1: Checking for guest additions in VM...
+    mon1: The guest additions on this VM do not match the installed version of
+    mon1: VirtualBox! In most cases this is fine, but in rare cases it can
+    mon1: prevent things such as shared folders from working properly. If you see
+    mon1: shared folder errors, please make sure the guest additions within the
+    mon1: virtual machine match the version of VirtualBox you have installed on
+    mon1: your host and reload your VM.
+    mon1: 
+    mon1: Guest Additions Version: 5.2.18
+    mon1: VirtualBox Version: 6.0
+==> mon1: Setting hostname...
+==> mon1: Configuring and enabling network interfaces...
+==> mon1: Mounting shared folders...
+    mon1: /vagrant => D:/Documents/GitHub/elnx-1819-ha-JensNeirynck
+==> mon1: Machine already provisioned. Run `vagrant provision` or use the `--provision`
+==> mon1: flag to force provisioning. Provisioners marked to run always will still run.

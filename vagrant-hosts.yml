@@ -1,0 +1,31 @@
+---
+
+- name: db1
+  ip: 192.168.1.4
+  hostname: database1
+  mem: 1024
+
+- name: web1
+  ip: 192.168.1.5
+  hostname: webserver1
+  mem: 512
+
+- name: web2
+  ip: 192.168.1.6
+  hostname: webserver2
+  mem: 512
+
+- name: mon1
+  ip: 192.168.1.2
+  hostname: monitor1
+  mem: 2048
+
+- name: lb1
+  ip: 192.168.1.3
+  hostname: loadbalancer1
+  mem: 1024
+
+- name: lamp
+  ip: 192.168.1.250
+  hostname: lamp
+  mem: 2045

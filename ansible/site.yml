@@ -1,0 +1,76 @@
+# site.yml \n---
+
+- hosts: all
+  become: true
+  roles:
+    - bertvv.rh-base
+    - bertvv.hosts
+
+- hosts: db1
+  become: true
+  roles:
+    - bertvv.mariadb
+  pre_tasks:
+    - name: Setting hostname
+      hostname:
+        name: db1
+
+- hosts: web1
+  become: true
+  roles:
+    - bertvv.drupal
+    - bertvv.httpd
+    - dj-wasabi.zabbix-agent
+  pre_tasks:
+    - name: Setting hostname
+      hostname:
+        name: web1
+
+- hosts: web2
+  become: true
+  roles:
+    - bertvv.drupal
+    - bertvv.httpd
+    - dj-wasabi.zabbix-agent
+  pre_tasks:
+    - name: Setting hostname
+      hostname:
+        name: web2
+
+- hosts: lb1
+  become: true
+  roles:
+    - jensneirynck.pound
+  vars:
+    Pound_LoadBalancerHTTPIP: 192.168.1.3
+    Pound_LoadBalancerHTTPPort: 80
+    Pound_LoadBalancerHTTPSIP: 192.168.1.3
+    Pound_LoadBalancerHTTPSPort: 443
+    Webservers:
+    - ip: 192.168.1.5
+      port: 80
+      priority: 5
+    - ip: 192.168.1.6
+      port: 80
+      priority: 5
+
+  pre_tasks:
+    - name: Setting hostname
+      hostname:
+        name: lb1
+
+
+- hosts: mon1
+  become: true
+  roles:
+    - bertvv.mariadb
+    - geerlingguy.apache
+    - jensneirynck.zabbixserver
+    - dj-wasabi.zabbix-web
+
+- hosts: lamp
+  become: true
+  roles:
+    - bertvv.mariadb
+    - bertvv.drupal
+    - bertvv.httpd
